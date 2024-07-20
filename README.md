@@ -1,2 +1,2 @@
 # chat-app
-python chat application
+python chat application for tcp 
