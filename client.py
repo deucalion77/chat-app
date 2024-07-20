@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 import socket
 
 client_Port = 80
@@ -8,7 +10,7 @@ client.connect((client_Ip, client_Port))
 
 try:
     while True:
-        data = input("user Input: ")
+        data = input("")
         client.send(data.encode())
         #print(data)
 
