@@ -2,7 +2,6 @@
 
 import socket 
 import sys
-import threading
 
 server_Port = 80
 server_Ip = "127.0.0.1"
@@ -23,14 +22,12 @@ def server():
             if msg == "":
                 print(f"Exiting Programme")
                 break
-            data = input("")
-            server.send(data.encode())
-            
-        server.close
+            server.close
 
     except KeyboardInterrupt:
         print("Exiting Programme")
         server.close
+
 
 def client():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -46,7 +43,7 @@ def client():
         if not msg:
                 print("Exiting Programe")
                 #break
-        conn.close()
+                conn.close()
             
         print(f"Received ", msg)
         client.close
@@ -54,7 +51,19 @@ def client():
     except KeyboardInterrupt:
         print("Exiting Programe")
         client.close
-    
+
+def threading():
+    # Create threads for each function
+    thread_S = threading.Thread(target=server)
+    thread_C = threading.Thread(target=client)
+
+    # Start the threads
+    thread_s.start()
+    thread_c.start()
+
+    # Wait for both threads to finish
+    thread_s.join()
+    thread_c.join()
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -63,14 +72,11 @@ if __name__ == "__main__":
     
     function_name = sys.argv[1]
     
-    if function_name == "-server":
-        s = threading.Thread(target=server)
-        s.start()
-
-    elif function_name == "-client":
-        c = threading.Thread(target=client)
-        c.start()
+    if function_name == "-server" or "--s":
+        start_threading()
+    elif function_name == "-client" or "--c":
+        client()
     else:
-        print(f"Unknown function '{function_name}'. Available functions: A, B")
+        print(f"Unknown function '{function_name}'. Available functions: Server and Client")
         sys.exit(1)
 
